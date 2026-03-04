@@ -1,6 +1,6 @@
 import type { LandingContent } from '@/types/landing';
 
-const lineUrl = process.env.NEXT_PUBLIC_LINE_OA_URL ?? 'https://lin.ee/xxxxxxx';
+const lineUrl = process.env.NEXT_PUBLIC_LINE_OA_URL ?? 'https://lin.ee/mGVIRmw';
 
 export const landingContent: LandingContent = {
   siteMeta: {
@@ -23,9 +23,9 @@ export const landingContent: LandingContent = {
     title: '用 AI 跟享哥一起做出你的第一個銷售頁',
     subtitle:
       '零程式基礎、快速上手、可部署上線。你不只學概念，而是帶著一個真的能拿去用的 MVP 銷售頁離開教室。',
-    countdownLabel: '早鳥截止 {{EARLY_BIRD_DEADLINE}}',
+    countdownLabel: '早鳥截止 2026/12/31',
     deadlineLabel: '限時優惠保留位',
-    seatsLabel: '剩餘 {{SEATS_LEFT}} 席',
+    seatsLabel: '剩餘 20 席',
   },
   trustMetrics: [
     { value: '3 小時', label: '實作交付節奏' },
@@ -69,7 +69,7 @@ export const landingContent: LandingContent = {
   solutionStatement:
     'Vibe Coding 用「感覺派程式素養」帶你把抽象需求拆成可執行頁面與流程，直接產出成果，同時提升與工程、設計、行銷之間的協作效率。',
   instructor: {
-    name: '享哥（徐享）',
+    name: '享哥',
     role: '生成式 AI 應用規劃師',
     bio: '擁有多年行銷實戰與 AI 應用經驗，擅長把抽象技術轉成可落地的成果流程，讓不懂程式的人也能跟著做、看得懂、做得出。',
     highlights: [
@@ -84,7 +84,7 @@ export const landingContent: LandingContent = {
       { value: '企業 / 院校', label: '授課與工作坊經歷' },
     ],
     image: {
-      src: '/instructor-placeholder.svg',
+      src: '/seanhsu.jpg',
       alt: '講師享哥的形象示意圖',
     },
   },
@@ -121,10 +121,10 @@ export const landingContent: LandingContent = {
     },
   ],
   schedule: {
-    courseDate: '{{COURSE_DATE}}',
-    courseTime: '{{COURSE_TIME}}',
+    courseDate: '2026/12/31',
+    courseTime: '早上九點到下午五點',
     format: '實體工作坊 / 小班互動',
-    venue: '{{COURSE_VENUE}}',
+    venue: '雲端會議室',
     tools: ['筆電', 'Chrome 瀏覽器', 'GitHub 帳號', 'LINE 帳號'],
   },
   testimonials: [
@@ -148,12 +148,12 @@ export const landingContent: LandingContent = {
     plans: [
       {
         name: '單人票',
-        price: '{{PRICE_STANDARD}}',
+        price: '4800元',
         note: '適合想自己完成第一個可上線作品的個人學員。',
       },
       {
         name: '早鳥優惠',
-        price: '{{PRICE_EARLY_BIRD}}',
+        price: '2400元',
         note: '限時保留優惠名額，優先卡位本梯次工作坊。',
         featured: true,
       },
@@ -163,7 +163,7 @@ export const landingContent: LandingContent = {
         note: '適合共同學習與公司夥伴一起導入實作流程。',
       },
     ],
-    urgency: ['早鳥截止 {{EARLY_BIRD_DEADLINE}}', '本梯次剩餘 {{SEATS_LEFT}} 席', '所有報名統一由 LINE 完成'],
+    urgency: ['早鳥截止 2026/12/12', '本梯次剩餘 20 席', '所有報名統一由 LINE 完成'],
   },
   signupFlow: [
     {
@@ -215,7 +215,7 @@ export const landingContent: LandingContent = {
       '如果你要的不是再看一門課，而是確實做出一個可部署、可追蹤、可複製的銷售頁，現在就先加入 LINE 卡位。',
   },
   footer: {
-    contactEmail: '{{CONTACT_EMAIL}}',
+    contactEmail: 'seanhsu1313@gmail.com',
     privacyNote: '本頁面將使用 GA4 與 Meta Pixel 追蹤 CTA 與瀏覽行為，正式上線前請補齊隱私說明與聯絡資訊。',
   },
   line: {
