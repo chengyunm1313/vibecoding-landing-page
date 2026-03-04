@@ -646,7 +646,70 @@ https://script.google.com/macros/s/你的部署ID/exec?token=你的共享token
 2. 到 GitHub `Settings > Pages`
 3. 確認部署來源使用 `GitHub Actions`
 
-### 12.3 建議設定 GitHub Actions Variables
+### 12.3 這個專案的 CI/CD 到底是怎麼跑的？
+
+如果你常看到 `CI/CD` 這個詞，可以先把它拆開理解：
+
+- `CI`（Continuous Integration，持續整合）：每次你發 PR 或合併程式時，自動幫你檢查專案有沒有壞
+- `CD`（Continuous Delivery / Deployment，持續交付／部署）：檢查通過後，自動把網站部署出去
+
+這個專案目前的 `.github/workflows/deploy-pages.yml` 是這樣設計的：
+
+- 當你開 `pull request` 到 `main`：會跑 `npm ci`、`npm run lint`、`npm run build`
+- 當你 `push` 到 `main`：除了上面的檢查，還會把 `out/` 自動部署到 GitHub Pages
+
+也就是說，你現在這套流程本身就已經包含：
+
+- `CI`：lint + build
+- `CD`：deploy 到 GitHub Pages
+
+### 12.4 我需要另外建立 `gh-pages` 分支嗎？
+
+通常不用。
+
+這個專案目前用的是 GitHub 官方新版 Pages workflow：
+
+- `actions/configure-pages@v5`
+- `actions/upload-pages-artifact@v3`
+- `actions/deploy-pages@v4`
+
+這種做法是把 build 出來的靜態檔案當成 artifact 上傳，再由 GitHub Pages 直接部署。
+
+所以：
+
+- 你**不需要**手動建立 `gh-pages` 分支
+- 你**不需要**把 `out/` 內容 commit 到某個部署分支
+- 你**不需要**額外裝傳統 `gh-pages` npm 套件
+
+只有在你改成「把靜態檔案直接推到 `gh-pages` 分支」那種舊流程時，才會需要 `gh-pages`。
+
+### 12.5 那我實際上應該用哪些分支？
+
+最簡單的單人版本：
+
+- `main`：正式分支，也是唯一需要部署的分支
+
+如果你之後想讓流程比較乾淨，建議用這種方式：
+
+- `main`：正式站來源，push 到這裡就會自動部署
+- `feature/*`：功能開發分支，例如 `feature/update-copy`、`feature/change-hero`
+
+推薦流程是：
+
+1. 平常在 `feature/*` 分支改內容或寫功能
+2. 開 PR 合併到 `main`
+3. GitHub Actions 在 PR 時先幫你跑檢查
+4. 合併到 `main` 後自動部署
+
+如果你目前只有自己一個人維護，而且想先求簡單：
+
+- 只用 `main` 也可以
+
+但要知道：
+
+- 只要直接 push 到 `main`，就會立刻觸發部署
+
+### 12.6 建議設定 GitHub Actions Variables
 
 到：
 
@@ -659,10 +722,33 @@ https://script.google.com/macros/s/你的部署ID/exec?token=你的共享token
 - `NEXT_PUBLIC_GA_MEASUREMENT_ID`
 - `NEXT_PUBLIC_META_PIXEL_ID`
 
-### 12.4 GitHub Actions 目前會做什麼
+### 12.7 你可以直接照這個最小流程操作
+
+1. 本機完成修改後 commit
+2. push 到 GitHub 的 `main`
+3. GitHub Actions 自動跑 lint 與 build
+4. build 成功後自動部署到 GitHub Pages
+5. 幾分鐘後用公開網址檢查結果
+
+如果你想多一層保險，再改成：
+
+1. 從 `main` 切出 `feature/*`
+2. 在 `feature/*` 上修改
+3. 發 PR 到 `main`
+4. 先讓 CI 檢查通過
+5. 合併後自動部署
+
+### 12.8 GitHub Actions 目前會做什麼
 
 - `pull_request` 到 `main`：會先跑 `npm ci`、`npm run lint`、`npm run build`
 - `push` 到 `main`：除了 build，還會把 `out/` 部署到 GitHub Pages
+
+### 12.9 常見搞混的地方
+
+- `GitHub Pages` 不是一定要搭配 `gh-pages` 分支；你現在這個專案不是走那條路
+- `GitHub Actions` 是自動化工具；`GitHub Pages` 是靜態網站託管服務，兩者是合作關係，不是同一個東西
+- `main` 是你目前真正需要的正式分支；`gh-pages` 在這個專案裡不是必要角色
+- 如果你改了 GitHub repository 名稱，記得同步修改 `next.config.mjs` 裡的 `repoName`，不然靜態資源路徑會錯
 
 ---
 
