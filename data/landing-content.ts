@@ -137,7 +137,7 @@ export const landingContent: LandingContent = {
     courseDate: '2026/12/31',
     courseTime: '早上九點到下午五點',
     format: '實體工作坊 / 小班互動',
-    venue: '雲端會議室',
+    venue: 'XX教室',
     tools: ['筆電', 'Chrome 瀏覽器', 'GitHub 帳號', 'LINE 帳號'],
   },
   testimonials: [
@@ -166,13 +166,13 @@ export const landingContent: LandingContent = {
       },
       {
         name: '早鳥優惠',
-        price: '2400元',
+        price: '3600元',
         note: '限時保留優惠名額，優先卡位本梯次工作坊。',
         featured: true,
       },
       {
         name: '雙人團報',
-        price: '另洽',
+        price: '5600元',
         note: '適合共同學習與公司夥伴一起導入實作流程。',
       },
     ],
