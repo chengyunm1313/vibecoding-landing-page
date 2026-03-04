@@ -22,7 +22,7 @@ export function Hero({ content }: { content: LandingContent }) {
                 不是只學概念，而是直接做出頁面
               </span>
             </div>
-            <h1 className="font-display mt-7 max-w-4xl text-4xl font-bold leading-[0.98] tracking-[-0.055em] text-[var(--color-neutral)] sm:text-5xl lg:text-[5.15rem]">
+            <h1 className="font-display mt-7 max-w-4xl text-3xl font-bold leading-[0.98] tracking-[-0.055em] text-[var(--color-neutral)] sm:text-4xl lg:text-[4rem]">
               {content.hero.title}
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600 md:text-[1.3rem]">

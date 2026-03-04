@@ -10,7 +10,7 @@ export function SectionHeading({
   description: string;
 }) {
   return (
-    <div className="max-w-3xl">
+    <div>
       <Badge>{eyebrow}</Badge>
       <h2 className="font-display mt-6 max-w-4xl text-3xl font-bold leading-[1.08] tracking-[-0.04em] text-[var(--color-neutral)] md:text-5xl">
         {title}

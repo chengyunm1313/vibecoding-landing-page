@@ -33,7 +33,7 @@ export function Pricing({ content }: { content: LandingContent }) {
     >
       <div className="section-shell">
         <div className="space-y-8">
-          <div className="max-w-3xl">
+          <div>
             <Badge>價格方案與 CTA</Badge>
             <h2 className="font-display mt-6 max-w-4xl text-3xl font-bold leading-[1.08] tracking-[-0.04em] text-[var(--color-neutral)] md:text-5xl">
               用清楚方案與價格節奏，讓報名者更快做決定

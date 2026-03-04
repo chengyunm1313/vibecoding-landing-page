@@ -12,7 +12,7 @@ export function FinalCta({ content }: { content: LandingContent }) {
               <div className="subtitle-text text-white/60">
                 最後一個提醒
               </div>
-              <h2 className="font-display mt-4 max-w-3xl text-3xl font-bold leading-[1.08] tracking-[-0.045em] md:text-5xl">
+              <h2 className="font-display mt-4 text-3xl font-bold leading-[1.08] tracking-[-0.045em] md:text-5xl">
                 {content.finalCta.title}
               </h2>
               <p className="mt-5 max-w-2xl text-lg leading-8 text-white/78">
