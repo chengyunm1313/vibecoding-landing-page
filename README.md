@@ -270,6 +270,18 @@ npm run dev
 
 ### 7.2 如果你是初學者，我更建議你建立 `.env.local`
 
+這個檔案要放在專案根目錄，也就是和 `package.json` 同一層：
+
+```text
+/Users/hsuhsiang/Desktop/project/vibecoding-landing-page/.env.local
+```
+
+如果你不想手打，可以直接參考專案內建範例檔：
+
+- `.env.local.example`
+
+最簡單做法就是把 `.env.local.example` 複製一份成 `.env.local`，再把值換成你自己的。
+
 內容可以像這樣：
 
 ```env
@@ -279,16 +291,80 @@ NEXT_PUBLIC_GA_MEASUREMENT_ID=
 NEXT_PUBLIC_META_PIXEL_ID=
 ```
 
+你也可以直接用這個指令建立：
+
+```bash
+cp .env.local.example .env.local
+```
+
 之後只要執行：
 
 ```bash
 npm run dev
 ```
 
-### 7.3 這些值沒填會怎樣？
+### 7.3 每個變數要填什麼？
+
+| 變數 | 你應該填什麼 |
+| --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | 本機通常填 `http://localhost:3000`；正式站填你的公開網址 |
+| `NEXT_PUBLIC_LINE_OA_URL` | 你的 LINE 官方帳號加好友連結，例如 `https://lin.ee/xxxxxxx` |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | 你的 GA4 測量 ID，例如 `G-XXXXXXXXXX` |
+| `NEXT_PUBLIC_META_PIXEL_ID` | 你的 Meta Pixel ID，通常是一串數字 |
+
+### 7.4 這些值在程式裡是在哪裡用到的？
+
+- `NEXT_PUBLIC_SITE_URL`
+  - `app/layout.tsx`
+  - `app/sitemap.ts`
+  - `app/robots.ts`
+- `NEXT_PUBLIC_LINE_OA_URL`
+  - `data/landing-content.ts`
+- `NEXT_PUBLIC_GA_MEASUREMENT_ID`
+  - `app/layout.tsx`
+  - `lib/analytics.ts`
+- `NEXT_PUBLIC_META_PIXEL_ID`
+  - `app/layout.tsx`
+
+也就是說：
+
+- 站點網址會影響 SEO、sitemap、robots 與 metadata
+- LINE 連結會影響整站所有 CTA 按鈕
+- GA4 / Meta Pixel 會影響追蹤碼是否真的載入
+
+### 7.5 這些值沒填會怎樣？
 
 - 沒填 `NEXT_PUBLIC_LINE_OA_URL`：按鈕會退回預設 placeholder
 - 沒填 GA4 / Meta Pixel：頁面仍可運作，但不會送追蹤事件
+- 沒填 `NEXT_PUBLIC_SITE_URL`：本機仍可開發，但正式 SEO 與 sitemap 會退回預設網址
+
+### 7.6 正式部署時要在哪裡設定？
+
+如果你是部署到 GitHub Pages，請到 GitHub repository：
+
+```text
+Settings > Secrets and variables > Actions > Variables
+```
+
+把這 4 個值加進去：
+
+- `NEXT_PUBLIC_SITE_URL`
+- `NEXT_PUBLIC_LINE_OA_URL`
+- `NEXT_PUBLIC_GA_MEASUREMENT_ID`
+- `NEXT_PUBLIC_META_PIXEL_ID`
+
+這個專案的 GitHub Actions 在 build 時會讀取它們。
+
+### 7.7 一個重要觀念
+
+這些變數都以 `NEXT_PUBLIC_` 開頭，所以它們是公開環境變數。
+
+不要把這裡拿來放：
+
+- 密碼
+- 私密 token
+- API secret
+- 金流金鑰
 
 ---
 

@@ -4,7 +4,7 @@ import { SectionHeading } from '@/components/ui/section-heading';
 
 export function Testimonials({ content }: { content: LandingContent }) {
   return (
-    <section className="section-padding">
+    <section className="section-padding bg-[linear-gradient(180deg,rgba(255,255,255,0),rgba(234,239,243,0.38),rgba(255,255,255,0))]">
       <div className="section-shell">
         <SectionHeading
           eyebrow="社會證明"
@@ -14,14 +14,17 @@ export function Testimonials({ content }: { content: LandingContent }) {
 
         <div className="mt-14 grid gap-6 lg:grid-cols-3">
           {content.testimonials.map((item) => (
-            <figure key={item.author} className="surface-card rounded-[32px] p-6">
-              <div className="font-display text-4xl text-[var(--color-primary)]">“</div>
+            <figure key={item.author} className="surface-card rounded-[32px] p-7">
+              <div className="subtitle-text inline-flex rounded-full border border-[rgba(20,34,53,0.08)] bg-white/80 px-3 py-1 text-[var(--color-primary)]">
+                {item.tag}
+              </div>
+              <div className="font-display mt-6 text-5xl leading-none text-[var(--color-primary)]">“</div>
               <blockquote className="mt-4 text-lg leading-8 text-[var(--color-neutral)]">
                 {item.quote}
               </blockquote>
-              <figcaption className="mt-8 border-t border-slate-100 pt-5">
+              <figcaption className="mt-8 border-t border-[rgba(20,34,53,0.08)] pt-5">
                 <div className="text-sm font-semibold text-[var(--color-neutral)]">{item.author}</div>
-                <div className="mt-1 text-sm text-slate-500">{item.tag}</div>
+                <div className="mt-1 text-sm text-slate-500">真實學員回饋語氣示意</div>
               </figcaption>
             </figure>
           ))}

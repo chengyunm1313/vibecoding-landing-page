@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
-import { Noto_Sans_TC, Space_Grotesk } from 'next/font/google';
+import { Noto_Sans_TC, Noto_Serif_TC } from 'next/font/google';
 
 import './globals.css';
 
@@ -14,10 +14,10 @@ const notoSansTc = Noto_Sans_TC({
   display: 'swap',
 });
 
-const spaceGrotesk = Space_Grotesk({
+const notoSerifTc = Noto_Serif_TC({
   subsets: ['latin'],
   variable: '--font-display',
-  weight: ['500', '700'],
+  weight: ['500', '700', '900'],
   display: 'swap',
 });
 
@@ -55,7 +55,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-Hant">
-      <body className={`${notoSansTc.variable} ${spaceGrotesk.variable} antialiased`}>
+      <body className={`${notoSansTc.variable} ${notoSerifTc.variable} antialiased`}>
         {gaId ? (
           <>
             <Script

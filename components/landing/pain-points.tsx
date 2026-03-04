@@ -4,7 +4,7 @@ import { SectionHeading } from '@/components/ui/section-heading';
 
 export function PainPoints({ content }: { content: LandingContent }) {
   return (
-    <section className="section-padding bg-[linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,0.65),rgba(255,255,255,0))]">
+    <section className="section-padding bg-[linear-gradient(180deg,rgba(255,255,255,0),rgba(255,252,247,0.72),rgba(255,255,255,0))]">
       <div className="section-shell">
         <SectionHeading
           eyebrow="你可能也卡在這裡"
@@ -14,19 +14,21 @@ export function PainPoints({ content }: { content: LandingContent }) {
 
         <div className="mt-14 grid gap-6 lg:grid-cols-[1fr_1fr_1fr]">
           {content.painPoints.map((point) => (
-            <article key={point.title} className="surface-card rounded-[28px] p-6">
-              <div className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-primary)]">
-                Pain Point
+            <article key={point.title} className="surface-card rounded-[28px] p-7">
+              <div className="subtitle-text text-[var(--color-primary)]">
+                常見卡點
               </div>
-              <h3 className="mt-4 text-xl font-semibold text-[var(--color-neutral)]">{point.title}</h3>
+              <h3 className="mt-4 text-xl font-semibold leading-8 text-[var(--color-neutral)]">
+                {point.title}
+              </h3>
               <p className="mt-4 leading-7 text-slate-600">{point.description}</p>
             </article>
           ))}
         </div>
 
         <div className="noise-ring mt-10 rounded-[36px] bg-[var(--color-neutral)] px-7 py-8 text-white md:px-10">
-          <div className="text-sm font-semibold uppercase tracking-[0.22em] text-[rgba(255,255,255,0.72)]">
-            Solution
+          <div className="subtitle-text text-[rgba(255,255,255,0.72)]">
+            這堂課會怎麼解
           </div>
           <p className="mt-4 max-w-4xl text-lg leading-8 text-[rgba(255,255,255,0.88)]">
             {content.solutionStatement}

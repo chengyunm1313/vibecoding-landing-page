@@ -11,42 +11,42 @@ export function Schedule({ content }: { content: LandingContent }) {
           <SectionHeading
             eyebrow="課程時間與地點"
             title="把上課資訊清楚講明白，降低最後一哩的報名猶豫"
-            description="這裡預留正式日期、時間與地點資訊。等你補上真實內容後，可以直接替換 placeholder，不需要動版型。"
+            description="當日期、形式、地點與準備工具一次說清楚，報名者就比較不需要回頭私訊確認細節。"
           />
 
           <div className="surface-card rounded-[36px] p-6 md:p-8">
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-[28px] bg-slate-50 p-5">
+              <div className="rounded-[28px] border border-[rgba(20,34,53,0.06)] bg-[rgba(20,34,53,0.03)] p-5">
                 <div className="flex items-center gap-3 text-[var(--color-primary)]">
                   <Icon name="clock" className="h-5 w-5" />
-                  <span className="text-sm font-semibold uppercase tracking-[0.22em]">日期</span>
+                  <span className="subtitle-text">日期</span>
                 </div>
                 <div className="mt-4 text-xl font-semibold text-[var(--color-neutral)]">
                   {content.schedule.courseDate}
                 </div>
               </div>
-              <div className="rounded-[28px] bg-slate-50 p-5">
+              <div className="rounded-[28px] border border-[rgba(20,34,53,0.06)] bg-[rgba(20,34,53,0.03)] p-5">
                 <div className="flex items-center gap-3 text-[var(--color-primary)]">
                   <Icon name="clock" className="h-5 w-5" />
-                  <span className="text-sm font-semibold uppercase tracking-[0.22em]">時間</span>
+                  <span className="subtitle-text">時間</span>
                 </div>
                 <div className="mt-4 text-xl font-semibold text-[var(--color-neutral)]">
                   {content.schedule.courseTime}
                 </div>
               </div>
-              <div className="rounded-[28px] bg-slate-50 p-5">
+              <div className="rounded-[28px] border border-[rgba(20,34,53,0.06)] bg-[rgba(20,34,53,0.03)] p-5">
                 <div className="flex items-center gap-3 text-[var(--color-primary)]">
                   <Icon name="users" className="h-5 w-5" />
-                  <span className="text-sm font-semibold uppercase tracking-[0.22em]">形式</span>
+                  <span className="subtitle-text">形式</span>
                 </div>
                 <div className="mt-4 text-xl font-semibold text-[var(--color-neutral)]">
                   {content.schedule.format}
                 </div>
               </div>
-              <div className="rounded-[28px] bg-slate-50 p-5">
+              <div className="rounded-[28px] border border-[rgba(20,34,53,0.06)] bg-[rgba(20,34,53,0.03)] p-5">
                 <div className="flex items-center gap-3 text-[var(--color-primary)]">
                   <Icon name="map" className="h-5 w-5" />
-                  <span className="text-sm font-semibold uppercase tracking-[0.22em]">地點</span>
+                  <span className="subtitle-text">地點</span>
                 </div>
                 <div className="mt-4 text-xl font-semibold text-[var(--color-neutral)]">
                   {content.schedule.venue}
@@ -55,7 +55,7 @@ export function Schedule({ content }: { content: LandingContent }) {
             </div>
 
             <div className="mt-6 rounded-[28px] bg-[var(--color-neutral)] p-6 text-white">
-              <div className="text-sm font-semibold uppercase tracking-[0.22em] text-white/70">
+              <div className="subtitle-text text-white/70">
                 建議自備工具
               </div>
               <ul className="mt-4 grid gap-3 sm:grid-cols-2">

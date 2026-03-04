@@ -7,12 +7,12 @@ export function Badge({
 }) {
   const toneClass =
     tone === 'primary'
-      ? 'border-[rgba(13,148,136,0.14)] bg-white/80 text-[var(--color-primary)]'
-      : 'border-[rgba(15,23,42,0.08)] bg-white/75 text-[var(--color-neutral)]';
+      ? 'border-[rgba(29,79,115,0.12)] bg-[rgba(255,253,250,0.92)] text-[var(--color-primary)]'
+      : 'border-[rgba(20,34,53,0.08)] bg-[rgba(255,253,250,0.82)] text-[var(--color-neutral)]';
 
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold ${toneClass}`}
+      className={`subtitle-text inline-flex items-center gap-2 rounded-full border px-4 py-2 uppercase ${toneClass}`}
     >
       {children}
     </span>

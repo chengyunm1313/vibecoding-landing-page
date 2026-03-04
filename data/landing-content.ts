@@ -1,6 +1,6 @@
 import type { LandingContent } from '@/types/landing';
 
-const lineUrl = process.env.NEXT_PUBLIC_LINE_OA_URL ?? 'https://lin.ee/mGVIRmw';
+const lineUrl = process.env.NEXT_PUBLIC_LINE_OA_URL ?? 'https://lin.ee/你的LINE連結';
 
 export const landingContent: LandingContent = {
   siteMeta: {
@@ -84,7 +84,7 @@ export const landingContent: LandingContent = {
       { value: '企業 / 院校', label: '授課與工作坊經歷' },
     ],
     image: {
-      src: '/seanhsu.jpg',
+      src: '/seanhsu2.jpg',
       alt: '講師享哥的形象示意圖',
     },
   },

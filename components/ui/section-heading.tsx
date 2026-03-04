@@ -12,10 +12,11 @@ export function SectionHeading({
   return (
     <div className="max-w-3xl">
       <Badge>{eyebrow}</Badge>
-      <h2 className="font-display mt-6 text-3xl font-bold tracking-tight text-[var(--color-neutral)] md:text-5xl">
+      <h2 className="font-display mt-6 max-w-4xl text-3xl font-bold leading-[1.08] tracking-[-0.04em] text-[var(--color-neutral)] md:text-5xl">
         {title}
       </h2>
-      <p className="mt-5 text-base leading-8 text-slate-600 md:text-lg">{description}</p>
+      <div className="mt-6 h-px w-20 bg-[linear-gradient(90deg,var(--color-primary),rgba(199,104,54,0.24))]" />
+      <p className="mt-6 max-w-2xl text-base leading-8 text-slate-600 md:text-lg">{description}</p>
     </div>
   );
 }

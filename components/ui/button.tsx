@@ -30,11 +30,11 @@ export function Button({
 }: ButtonProps) {
   const variantClass = {
     primary:
-      'bg-[var(--color-cta)] text-white shadow-[0_20px_50px_rgba(234,88,12,0.28)] hover:-translate-y-0.5 hover:bg-[#c54b10]',
+      'bg-[var(--color-cta)] text-white shadow-[0_20px_50px_rgba(199,104,54,0.24)] hover:bg-[#b85a29]',
     secondary:
-      'border border-[rgba(15,23,42,0.1)] bg-white/80 text-[var(--color-neutral)] hover:-translate-y-0.5 hover:border-[rgba(13,148,136,0.3)] hover:bg-white',
+      'border border-[rgba(20,34,53,0.1)] bg-[rgba(255,253,250,0.9)] text-[var(--color-neutral)] hover:border-[rgba(29,79,115,0.24)] hover:bg-white',
     ghost:
-      'text-[var(--color-neutral)] hover:bg-white/65',
+      'text-[var(--color-neutral)] hover:bg-white/70',
   }[variant];
 
   return (
@@ -42,7 +42,7 @@ export function Button({
       href={href}
       target={target}
       rel={rel}
-      className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold transition-all duration-200 ${variantClass} ${className}`}
+      className={`group inline-flex cursor-pointer items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold transition-all duration-200 ease-out ${variantClass} ${className}`}
       onClick={() => {
         if (!ctaId || !placement) {
           return;
@@ -58,7 +58,12 @@ export function Button({
       }}
     >
       <span>{children}</span>
-      {variant !== 'ghost' ? <Icon name="arrowRight" className="h-4 w-4" /> : null}
+      {variant !== 'ghost' ? (
+        <Icon
+          name="arrowRight"
+          className="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-0.5"
+        />
+      ) : null}
     </a>
   );
 }

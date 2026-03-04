@@ -36,14 +36,14 @@ export function Faq({ content }: { content: LandingContent }) {
                     trackFaqToggle(item.id, nextOpen);
                   }}
                 >
-                  <span className="text-lg font-semibold text-[var(--color-neutral)]">
+                  <span className="text-lg font-semibold leading-8 text-[var(--color-neutral)]">
                     {item.question}
                   </span>
                   <span
                     className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border transition-transform duration-200 ${
                       isOpen
-                        ? 'border-[rgba(13,148,136,0.2)] bg-[rgba(13,148,136,0.08)] text-[var(--color-primary)] rotate-90'
-                        : 'border-slate-200 bg-white text-slate-500'
+                        ? 'border-[rgba(29,79,115,0.18)] bg-[rgba(29,79,115,0.08)] text-[var(--color-primary)] rotate-90'
+                        : 'border-[rgba(20,34,53,0.08)] bg-white text-slate-500'
                     }`}
                   >
                     <Icon name="arrowRight" className="h-4 w-4" />

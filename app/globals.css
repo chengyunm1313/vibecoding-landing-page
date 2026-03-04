@@ -1,14 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --color-primary: #0d9488;
-  --color-secondary: #2dd4bf;
-  --color-cta: #ea580c;
-  --color-background: #f0fdfa;
-  --color-text: #134e4a;
-  --color-neutral: #0f172a;
-  --color-border: #99f6e4;
-  --color-surface: rgba(255, 255, 255, 0.88);
+  --color-primary: #1d4f73;
+  --color-secondary: #dbe7f0;
+  --color-cta: #c76836;
+  --color-background: #f5f0e8;
+  --color-text: #415466;
+  --color-neutral: #142235;
+  --color-border: #ddd3c6;
+  --color-surface: rgba(255, 251, 246, 0.88);
+  --color-surface-strong: #fffdfa;
 }
 
 * {
@@ -24,9 +25,11 @@ body {
   min-height: 100vh;
   color: var(--color-text);
   background:
-    radial-gradient(circle at top, rgba(45, 212, 191, 0.22), transparent 42%),
-    linear-gradient(180deg, #f7fffd 0%, var(--color-background) 44%, #ffffff 100%);
+    radial-gradient(circle at top left, rgba(199, 104, 54, 0.12), transparent 28%),
+    radial-gradient(circle at top right, rgba(29, 79, 115, 0.12), transparent 34%),
+    linear-gradient(180deg, #fcfaf6 0%, var(--color-background) 46%, #f9f6f0 100%);
   font-family: var(--font-body), sans-serif;
+  line-height: 1.5;
 }
 
 body::before {
@@ -34,12 +37,12 @@ body::before {
   inset: 0;
   z-index: -1;
   background-image:
-    linear-gradient(rgba(15, 23, 42, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
-  background-size: 32px 32px;
+    linear-gradient(rgba(20, 34, 53, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20, 34, 53, 0.03) 1px, transparent 1px);
+  background-size: 56px 56px;
   content: '';
   pointer-events: none;
-  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.55), transparent 90%);
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.22), transparent 78%);
 }
 
 a {
@@ -61,21 +64,33 @@ a {
   font-family: var(--font-display), sans-serif;
 }
 
+.subtitle-text {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+}
+
 .section-shell {
-  width: min(1120px, calc(100% - 32px));
+  width: min(1160px, calc(100% - 32px));
   margin: 0 auto;
 }
 
 .section-padding {
-  padding-top: 88px;
-  padding-bottom: 88px;
+  padding-top: 104px;
+  padding-bottom: 104px;
 }
 
 .surface-card {
   background: var(--color-surface);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(20, 34, 53, 0.09);
+  box-shadow: 0 24px 80px rgba(20, 34, 53, 0.08);
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease,
+    background-color 220ms ease;
 }
 
 .stagger-fade {
@@ -83,7 +98,7 @@ a {
 }
 
 .hero-rise {
-  animation: hero-rise 0.55s ease both;
+  animation: hero-rise 0.62s ease-out both;
 }
 
 .section-anchor {
@@ -98,10 +113,10 @@ a {
   position: absolute;
   left: 0;
   bottom: -10px;
-  width: 96px;
-  height: 4px;
+  width: 108px;
+  height: 3px;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-cta));
+  background: linear-gradient(90deg, var(--color-primary), rgba(199, 104, 54, 0.6));
   content: '';
 }
 
@@ -117,9 +132,9 @@ a {
   padding: 1px;
   background: linear-gradient(
     135deg,
-    rgba(13, 148, 136, 0.35),
-    rgba(255, 255, 255, 0.7),
-    rgba(234, 88, 12, 0.24)
+    rgba(29, 79, 115, 0.3),
+    rgba(255, 253, 250, 0.82),
+    rgba(199, 104, 54, 0.2)
   );
   content: '';
   mask:
@@ -130,14 +145,22 @@ a {
 }
 
 :focus-visible {
-  outline: 3px solid rgba(234, 88, 12, 0.28);
+  outline: 3px solid rgba(199, 104, 54, 0.24);
   outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .surface-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(29, 79, 115, 0.16);
+    box-shadow: 0 28px 90px rgba(20, 34, 53, 0.11);
+  }
 }
 
 @keyframes hero-rise {
   from {
     opacity: 0;
-    transform: translateY(22px);
+    transform: translateY(24px);
   }
 
   to {
@@ -149,7 +172,7 @@ a {
 @keyframes stagger-fade {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(20px);
   }
 
   to {
@@ -160,11 +183,26 @@ a {
 
 @media (max-width: 767px) {
   .section-shell {
-    width: min(100% - 24px, 1120px);
+    width: min(100% - 24px, 1160px);
   }
 
   .section-padding {
-    padding-top: 72px;
-    padding-bottom: 72px;
+    padding-top: 76px;
+    padding-bottom: 76px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }

@@ -23,20 +23,28 @@ export function ResultsShowcase({ content }: { content: LandingContent }) {
           {content.outcomes.map((outcome, index) => (
             <article
               key={outcome.id}
-              className="surface-card stagger-fade rounded-[32px] p-6"
+              className="surface-card stagger-fade rounded-[32px] p-7"
               style={{ animationDelay: `${index * 90}ms` }}
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[rgba(13,148,136,0.12)] text-[var(--color-primary)]">
-                <Icon name={iconMap[index]} className="h-6 w-6" />
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[rgba(29,79,115,0.1)] text-[var(--color-primary)]">
+                  <Icon name={iconMap[index]} className="h-6 w-6" />
+                </div>
+                <div className="text-sm font-semibold tracking-[0.16em] text-slate-400">
+                  0{index + 1}
+                </div>
               </div>
-              <h3 className="mt-6 text-2xl font-semibold text-[var(--color-neutral)]">
+              <h3 className="mt-6 text-[1.7rem] font-semibold tracking-[-0.03em] text-[var(--color-neutral)]">
                 {outcome.title}
               </h3>
               <p className="mt-4 leading-7 text-slate-600">{outcome.summary}</p>
               <ul className="mt-6 space-y-3 text-sm leading-6 text-slate-600">
                 {outcome.bullets.map((bullet) => (
                   <li key={bullet} className="flex items-start gap-3">
-                    <Icon name="check" className="mt-1 h-4 w-4 shrink-0 text-[var(--color-primary)]" />
+                    <Icon
+                      name="check"
+                      className="mt-1 h-4 w-4 shrink-0 text-[var(--color-primary)]"
+                    />
                     <span>{bullet}</span>
                   </li>
                 ))}

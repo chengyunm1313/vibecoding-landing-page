@@ -22,13 +22,20 @@ export function SignupFlow({ content }: { content: LandingContent }) {
         <div className="mt-14 grid gap-5 lg:grid-cols-4">
           {content.signupFlow.map((step, index) => (
             <article key={step.title} className="surface-card relative rounded-[32px] p-6">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[rgba(13,148,136,0.12)] text-[var(--color-primary)]">
-                <Icon name={stepIcons[index]} className="h-6 w-6" />
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[rgba(29,79,115,0.12)] text-[var(--color-primary)]">
+                  <Icon name={stepIcons[index]} className="h-6 w-6" />
+                </div>
+                <div className="font-display text-3xl font-bold tracking-[-0.04em] text-[rgba(20,34,53,0.18)]">
+                  0{index + 1}
+                </div>
               </div>
-              <div className="mt-6 text-sm font-semibold uppercase tracking-[0.22em] text-[var(--color-primary)]">
-                Step {index + 1}
+              <div className="subtitle-text mt-6 text-[var(--color-primary)]">
+                報名步驟 {index + 1}
               </div>
-              <h3 className="mt-3 text-xl font-semibold text-[var(--color-neutral)]">{step.title}</h3>
+              <h3 className="mt-3 text-xl font-semibold tracking-[-0.03em] text-[var(--color-neutral)]">
+                {step.title}
+              </h3>
               <p className="mt-4 leading-7 text-slate-600">{step.description}</p>
             </article>
           ))}
