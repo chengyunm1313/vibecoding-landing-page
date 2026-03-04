@@ -4,6 +4,7 @@ import type { LandingContent } from '@/types/landing';
 
 import { Icon } from '@/components/ui/icon';
 import { SectionHeading } from '@/components/ui/section-heading';
+import { withPublicPath } from '@/lib/public-path';
 
 export function Instructor({ content }: { content: LandingContent }) {
   return (
@@ -13,7 +14,7 @@ export function Instructor({ content }: { content: LandingContent }) {
           <div className="surface-card noise-ring rounded-[36px] p-5">
             <div className="overflow-hidden rounded-[28px] bg-[linear-gradient(180deg,#eaf1f5,#fffdfa)]">
               <Image
-                src={content.instructor.image.src}
+                src={withPublicPath(content.instructor.image.src)}
                 alt={content.instructor.image.alt}
                 width={900}
                 height={960}

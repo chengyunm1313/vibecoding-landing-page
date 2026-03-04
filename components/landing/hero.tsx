@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { MetricChip } from '@/components/ui/metric-chip';
+import { withPublicPath } from '@/lib/public-path';
 
 export function Hero({ content }: { content: LandingContent }) {
   return (
@@ -122,7 +123,7 @@ export function Hero({ content }: { content: LandingContent }) {
 
                 <div className="mt-5 overflow-hidden rounded-[24px] border border-[rgba(20,34,53,0.08)] bg-slate-50">
                   <Image
-                    src="/hero-dashboard.svg"
+                    src={withPublicPath('/hero-dashboard.svg')}
                     alt="銷售頁與追蹤設定的成果示意畫面"
                     width={900}
                     height={700}
