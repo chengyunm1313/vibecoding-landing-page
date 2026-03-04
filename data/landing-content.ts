@@ -84,7 +84,7 @@ export const landingContent: LandingContent = {
       { value: '企業 / 院校', label: '授課與工作坊經歷' },
     ],
     image: {
-      src: '/seanhsu2.jpg',
+      src: '/seanhsu.jpg',
       alt: '講師享哥的形象示意圖',
     },
   },
@@ -118,6 +118,19 @@ export const landingContent: LandingContent = {
       title: '部署上線與版本管理',
       detail: '從 GitHub 到 GitHub Pages，完成實際發版與回滾概念。',
       outcome: '帶走一個真的可以上線的公開網址',
+    },
+    {
+      step: '06',
+      title: '建立 LINE 自動銷售 CRM',
+      detail:
+        '用 AI 幫你把 LINE 官方帳號的自動回覆、關鍵字查詢、圖文選單與卡片訊息串成第一個可運作的銷售 CRM。',
+      bullets: [
+        '建立簡單的聊天機器人，實現第一個自動回覆流程。',
+        '加入訊息偵測與資訊查詢功能，讓機器人能針對特定關鍵字回覆對應資訊。',
+        '設計並建立 LINE 圖文選單，讓客戶能快速點選常用功能。',
+        '學習用 Flex Message 建立精美卡片訊息，提升整體視覺呈現與互動體驗。',
+      ],
+      outcome: '完成一套可持續接待、導購與回覆常見問題的 LINE 自動銷售 CRM 雛型',
     },
   ],
   schedule: {

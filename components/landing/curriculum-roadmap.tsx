@@ -8,7 +8,7 @@ export function CurriculumRoadmap({ content }: { content: LandingContent }) {
       <div className="section-shell">
         <SectionHeading
           eyebrow="課程核心內容"
-          title="5 個步驟，把銷售頁、追蹤與部署流程一次串起來"
+          title="6 個步驟，把銷售頁、追蹤、部署與 LINE 自動銷售流程一次串起來"
           description="課程不是單點教學，而是一條連續的實作路徑。每一步都對應一個你可以帶走的結果。"
         />
 
@@ -29,6 +29,16 @@ export function CurriculumRoadmap({ content }: { content: LandingContent }) {
                   {item.title}
                 </h3>
                 <p className="mt-3 leading-7 text-slate-600">{item.detail}</p>
+                {item.bullets?.length ? (
+                  <ul className="mt-4 space-y-2 text-sm leading-7 text-slate-600 md:text-base">
+                    {item.bullets.map((bullet) => (
+                      <li key={bullet} className="flex gap-3">
+                        <span className="mt-2 h-2 w-2 rounded-full bg-[var(--color-primary)]" />
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
               </div>
               <div className="rounded-[24px] border border-[rgba(20,34,53,0.06)] bg-[rgba(20,34,53,0.03)] px-5 py-4">
                 <div className="subtitle-text text-[var(--color-primary)]">

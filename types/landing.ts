@@ -101,6 +101,7 @@ export type CurriculumItem = {
   title: string;
   detail: string;
   outcome: string;
+  bullets?: string[];
 };
 
 export type ScheduleContent = {
