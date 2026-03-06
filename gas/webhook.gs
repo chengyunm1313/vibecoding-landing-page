@@ -58,8 +58,14 @@ function handleEvent_(event) {
 	const cache = CacheService.getScriptCache();
 	const userStateKey = userId + '_state';
 	const currentState = cache.get(userStateKey);
+	// 1. 全域指令：報名 (直接回覆首頁卡片並清除任何卡住的狀態)
+	if (text === '報名') {
+		cache.remove(userStateKey);
+		replyWelcomeMessage_(event.replyToken, userId);
+		return;
+	}
 
-	// 1. 處理「取消」動作
+	// 2. 處理「取消」動作
 	if (text === '取消') {
 		if (currentState) {
 			cache.remove(userStateKey);
@@ -71,8 +77,9 @@ function handleEvent_(event) {
 		return;
 	}
 
-	// 2. 處理「查看價格方案」
+	// 3. 處理「查看價格方案」
 	if (text === '查看價格方案') {
+		cache.remove(userStateKey);
 		replyText_(
 			event.replyToken,
 			'💰 【優惠方案】\n\n超早鳥：NTD 3,000（優惠倒數中！）\n原價　：NTD 4,500\n\n👉 點擊下方選單的「報名」即可開始報名流程！'
@@ -80,15 +87,16 @@ function handleEvent_(event) {
 		return;
 	}
 
-	// 3. 處理「複製匯款資訊」
+	// 4. 處理「複製匯款資訊」
 	if (text === '複製匯款資訊') {
+		cache.remove(userStateKey);
 		const bankInfo =
 			'【匯款資訊總覽】\n銀行：玉山銀行 (808)\n戶名：陳威達\n帳號：0370968229188\n金額：NT$ 3,000\n\n💡 提示：您可以長按上方訊息單獨複製銀行代碼或帳號\n✅ 完成匯款後，請點擊「我已完成匯款」或是輸入「我已完成匯款」';
 		replyText_(event.replyToken, bankInfo);
 		return;
 	}
 
-	// 4. 處理「我已完成匯款」
+	// 5. 處理「我已完成匯款」
 	if (text === '我已完成匯款') {
 		// 設定狀態為等待輸入五碼，存活 10 分鐘
 		cache.put(userStateKey, STATE_WAITING_LAST5, STATE_CACHE_TIME);
@@ -96,38 +104,38 @@ function handleEvent_(event) {
 		return;
 	}
 
-	// 5. 狀態機：等待輸入五碼
-	if (currentState === STATE_WAITING_LAST5) {
-		if (/^\d{5}$/.test(text)) {
-			// 成功匹配 5 碼數字
-			cache.remove(userStateKey); // 驗證成功，清除狀態
+	// 6. 處理 5 碼數字 (全域接受：不管使用者有沒有先按按鈕，只要給 5 碼數字就受理，並清除狀態)
+	if (/^\d{5}$/.test(text)) {
+		cache.remove(userStateKey);
 
-			const displayName = getLineDisplayName_(userId);
-			appendRegistration_({
-				id: eventId || Utilities.getUuid(),
-				timestamp: new Date(),
-				userId: userId,
-				displayName: displayName,
-				last5: text,
-				amount: COURSE_AMOUNT, // 使用變數
-				status: 'pending',
-				source: SOURCE,
-				courseDate: COURSE_DATE,
-				remark: '',
-			});
+		const displayName = getLineDisplayName_(userId);
+		appendRegistration_({
+			id: eventId || Utilities.getUuid(),
+			timestamp: new Date(),
+			userId: userId,
+			displayName: displayName,
+			last5: text,
+			amount: COURSE_AMOUNT, // 使用變數
+			status: 'pending',
+			source: SOURCE,
+			courseDate: COURSE_DATE,
+			remark: '',
+		});
 
-			replyFlexMessage_(event.replyToken, '報名成功', getSuccessFlex_());
-		} else {
-			// 輸入的不是 5 碼
-			replyText_(
-				event.replyToken,
-				'⚠️ 格式錯誤！\n請輸入正確的 5 碼數字。\n（若想中斷流程，請輸入「取消」）'
-			);
-		}
+		replyFlexMessage_(event.replyToken, '報名成功', getSuccessFlex_());
 		return;
 	}
 
-	// 6. 其他關鍵字：報名、或未捕捉的對話都回傳歡迎 Flex 卡片
+	// 7. 狀態機內的防呆：如果使用者正在等 5 碼，卻輸入了其他不符格式的文字 (上面已排除報名/取消/選單等關鍵字)
+	if (currentState === STATE_WAITING_LAST5) {
+		replyText_(
+			event.replyToken,
+			'⚠️ 格式錯誤！\n請輸入正確的 5 碼數字。\n（若想中斷流程，請輸入「取消」）'
+		);
+		return;
+	}
+
+	// 8. 其他關鍵字或未捕捉的對話都回傳歡迎 Flex 卡片
 	replyWelcomeMessage_(event.replyToken, userId);
 }
 
