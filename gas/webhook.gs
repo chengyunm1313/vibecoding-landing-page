@@ -682,3 +682,27 @@ function jsonResponse_(payload) {
 		ContentService.MimeType.JSON
 	);
 }
+
+/**
+ * 處理 POST 請求到 LINE API
+ */
+function callLineApi_(url, payload) {
+	if (!CHANNEL_ACCESS_TOKEN) {
+		console.error('沒有設定 LINE_CHANNEL_ACCESS_TOKEN');
+		return;
+	}
+
+	try {
+		UrlFetchApp.fetch(url, {
+			method: 'post',
+			contentType: 'application/json',
+			headers: {
+				Authorization: 'Bearer ' + CHANNEL_ACCESS_TOKEN,
+			},
+			payload: JSON.stringify(payload),
+			muteHttpExceptions: true,
+		});
+	} catch (e) {
+		console.error('LINE API 呼叫失敗:', e);
+	}
+}
