@@ -305,12 +305,12 @@ npm run dev
 
 ### 7.3 每個變數要填什麼？
 
-| 變數 | 你應該填什麼 |
-| --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | 本機通常填 `http://localhost:3000`；正式站填你的公開網址 |
-| `NEXT_PUBLIC_LINE_OA_URL` | 你的 LINE 官方帳號加好友連結，例如 `https://lin.ee/xxxxxxx` |
-| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | 你的 GA4 測量 ID，例如 `G-XXXXXXXXXX` |
-| `NEXT_PUBLIC_META_PIXEL_ID` | 你的 Meta Pixel ID，通常是一串數字 |
+| 變數                            | 你應該填什麼                                                |
+| ------------------------------- | ----------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`          | 本機通常填 `http://localhost:3000`；正式站填你的公開網址    |
+| `NEXT_PUBLIC_LINE_OA_URL`       | 你的 LINE 官方帳號加好友連結，例如 `https://lin.ee/xxxxxxx` |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | 你的 GA4 測量 ID，例如 `G-XXXXXXXXXX`                       |
+| `NEXT_PUBLIC_META_PIXEL_ID`     | 你的 Meta Pixel ID，通常是一串數字                          |
 
 ### 7.4 這些值在程式裡是在哪裡用到的？
 
@@ -505,16 +505,16 @@ id | timestamp | userId | displayName | last5 | amount | status | source | cours
 
 ### 9.5 每個值是什麼意思？
 
-| 變數 | 用途 |
-| --- | --- |
-| `SPREADSHEET_ID` | 你的 Google Sheet ID |
-| `LINE_CHANNEL_ACCESS_TOKEN` | 讓 GAS 可以回覆 LINE 使用者訊息 |
-| `WEBHOOK_SHARED_TOKEN` | 這個範例用來驗證 Webhook URL 的共享 token |
-| `REGISTRATION_SHEET_NAME` | 報名工作表名稱，預設 `registrations` |
-| `ERROR_LOG_SHEET_NAME` | 錯誤紀錄工作表名稱，預設 `error_logs` |
-| `COURSE_AMOUNT` | 匯款金額 |
-| `COURSE_DATE` | 課程日期 |
-| `REGISTRATION_SOURCE` | 報名來源，例如 `landing` |
+| 變數                        | 用途                                      |
+| --------------------------- | ----------------------------------------- |
+| `SPREADSHEET_ID`            | 你的 Google Sheet ID                      |
+| `LINE_CHANNEL_ACCESS_TOKEN` | 讓 GAS 可以回覆 LINE 使用者訊息           |
+| `WEBHOOK_SHARED_TOKEN`      | 這個範例用來驗證 Webhook URL 的共享 token |
+| `REGISTRATION_SHEET_NAME`   | 報名工作表名稱，預設 `registrations`      |
+| `ERROR_LOG_SHEET_NAME`      | 錯誤紀錄工作表名稱，預設 `error_logs`     |
+| `COURSE_AMOUNT`             | 匯款金額                                  |
+| `COURSE_DATE`               | 課程日期                                  |
+| `REGISTRATION_SOURCE`       | 報名來源，例如 `landing`                  |
 
 ### 9.6 部署 GAS Web App
 
@@ -713,7 +713,7 @@ https://script.google.com/macros/s/你的部署ID/exec?token=你的共享token
 
 到：
 
-- `Settings > Secrets and variables > Actions`
+- `Settings > Secrets and variables > Actions > variables`
 
 設定：
 
@@ -749,6 +749,18 @@ https://script.google.com/macros/s/你的部署ID/exec?token=你的共享token
 - `GitHub Actions` 是自動化工具；`GitHub Pages` 是靜態網站託管服務，兩者是合作關係，不是同一個東西
 - `main` 是你目前真正需要的正式分支；`gh-pages` 在這個專案裡不是必要角色
 - 如果你改了 GitHub repository 名稱，記得同步修改 `next.config.mjs` 裡的 `repoName`，不然靜態資源路徑會錯
+
+### 12.10 在 GitHub 上手動重新部署
+
+如果你只是修改了 GitHub Actions Variables（例如改了 `NEXT_PUBLIC_SITE_URL`），但沒有新的程式碼變更，可以手動觸發重新部署：
+
+1. 進入你的 GitHub repository
+2. 點上方的 `Actions` 分頁
+3. 左側點選 `deploy-pages` workflow
+4. 找到最近一次的 run，點進去
+5. 右上角點 `Re-run all jobs` → 確認
+
+這樣就會用最新的 Variables 重新 build 並部署。
 
 ---
 
