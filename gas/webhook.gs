@@ -8,7 +8,8 @@
  */
 
 const PROPERTIES = PropertiesService.getScriptProperties();
-const REGISTRATION_SHEET_NAME = PROPERTIES.getProperty('REGISTRATION_SHEET_NAME') || 'registrations';
+const REGISTRATION_SHEET_NAME =
+	PROPERTIES.getProperty('REGISTRATION_SHEET_NAME') || 'registrations';
 const ERROR_LOG_SHEET_NAME = PROPERTIES.getProperty('ERROR_LOG_SHEET_NAME') || 'error_logs';
 const CHANNEL_ACCESS_TOKEN = PROPERTIES.getProperty('LINE_CHANNEL_ACCESS_TOKEN') || '';
 const WEBHOOK_SHARED_TOKEN = PROPERTIES.getProperty('WEBHOOK_SHARED_TOKEN') || '';
@@ -18,180 +19,219 @@ const SOURCE = PROPERTIES.getProperty('REGISTRATION_SOURCE') || 'landing';
 const SPREADSHEET_ID = PROPERTIES.getProperty('SPREADSHEET_ID') || '';
 
 function doPost(e) {
-  try {
-    validateSharedToken_(e);
+	try {
+		validateSharedToken_(e);
 
-    const payload = JSON.parse(getPostBody_(e));
-    const events = payload.events || [];
+		const payload = JSON.parse(getPostBody_(e));
+		const events = payload.events || [];
 
-    events.forEach((event) => {
-      handleEvent_(event);
-    });
+		events.forEach((event) => {
+			handleEvent_(event);
+		});
 
-    return jsonResponse_({ ok: true });
-  } catch (error) {
-    recordError_(error, e);
-    return jsonResponse_({
-      ok: false,
-      error: error instanceof Error ? error.message : String(error),
-    });
-  }
+		return jsonResponse_({ ok: true });
+	} catch (error) {
+		recordError_(error, e);
+		return jsonResponse_({
+			ok: false,
+			error: error instanceof Error ? error.message : String(error),
+		});
+	}
 }
 
 function handleEvent_(event) {
-  if (!event || event.type !== 'message' || !event.message || event.message.type !== 'text') {
-    return;
-  }
+	if (!event || event.type !== 'message' || !event.message || event.message.type !== 'text') {
+		return;
+	}
 
-  const userId = event.source && event.source.userId ? event.source.userId : '';
-  const text = String(event.message.text || '').trim();
+	// 用 webhookEventId 或 message.id 做去重，避免 LINE 重試造成重複寫入
+	const eventId = event.webhookEventId || (event.message && event.message.id) || '';
+	if (eventId && isDuplicateEvent_(eventId)) {
+		return;
+	}
 
-  if (text === '我已完成匯款') {
-    replyText_(event.replyToken, '請輸入匯款帳號後五碼');
-    return;
-  }
+	const userId = event.source && event.source.userId ? event.source.userId : '';
+	const text = String(event.message.text || '').trim();
 
-  if (!/^\d{5}$/.test(text)) {
-    replyText_(event.replyToken, '請輸入正確的5碼數字');
-    return;
-  }
+	if (text === '我已完成匯款') {
+		replyText_(event.replyToken, '請輸入匯款帳號後五碼');
+		return;
+	}
 
-  const displayName = getLineDisplayName_(userId);
-  appendRegistration_({
-    id: Utilities.getUuid(),
-    timestamp: new Date(),
-    userId: userId,
-    displayName: displayName,
-    last5: text,
-    amount: COURSE_AMOUNT,
-    status: 'pending',
-    source: SOURCE,
-    courseDate: COURSE_DATE,
-    remark: '',
-  });
+	if (!/^\d{5}$/.test(text)) {
+		replyText_(event.replyToken, '請輸入正確的5碼數字');
+		return;
+	}
 
-  replyText_(event.replyToken, '已收到您的匯款資訊，將於 12 小時內完成確認。');
+	const displayName = getLineDisplayName_(userId);
+	appendRegistration_({
+		id: eventId || Utilities.getUuid(),
+		timestamp: new Date(),
+		userId: userId,
+		displayName: displayName,
+		last5: text,
+		amount: COURSE_AMOUNT,
+		status: 'pending',
+		source: SOURCE,
+		courseDate: COURSE_DATE,
+		remark: '',
+	});
+
+	replyText_(event.replyToken, '已收到您的匯款資訊，將於 12 小時內完成確認。');
+}
+
+/**
+ * 檢查事件是否已處理過（去重）
+ * 比對 registrations 工作表的 id 欄（A 欄）是否已存在相同 eventId
+ */
+function isDuplicateEvent_(eventId) {
+	try {
+		const sheet = getSheet_(REGISTRATION_SHEET_NAME);
+		const lastRow = sheet.getLastRow();
+
+		if (lastRow < 2) {
+			return false;
+		}
+
+		// 只讀取 A 欄（id 欄），從第 2 列開始（跳過表頭）
+		const ids = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
+
+		for (var i = 0; i < ids.length; i++) {
+			if (String(ids[i][0]) === eventId) {
+				return true;
+			}
+		}
+
+		return false;
+	} catch (error) {
+		// 查詢失敗時不阻擋寫入，避免誤擋正常事件
+		console.error('去重檢查失敗：', error);
+		return false;
+	}
 }
 
 function validateSharedToken_(e) {
-  if (!WEBHOOK_SHARED_TOKEN) {
-    throw new Error('缺少 WEBHOOK_SHARED_TOKEN 設定');
-  }
+	if (!WEBHOOK_SHARED_TOKEN) {
+		throw new Error('缺少 WEBHOOK_SHARED_TOKEN 設定');
+	}
 
-  const token = e && e.parameter ? e.parameter.token : '';
-  if (token !== WEBHOOK_SHARED_TOKEN) {
-    throw new Error('Webhook token 驗證失敗');
-  }
+	const token = e && e.parameter ? e.parameter.token : '';
+	if (token !== WEBHOOK_SHARED_TOKEN) {
+		throw new Error('Webhook token 驗證失敗');
+	}
 }
 
 function getPostBody_(e) {
-  if (!e || !e.postData || !e.postData.contents) {
-    throw new Error('缺少 POST payload');
-  }
+	if (!e || !e.postData || !e.postData.contents) {
+		throw new Error('缺少 POST payload');
+	}
 
-  return e.postData.contents;
+	return e.postData.contents;
 }
 
 function getSpreadsheet_() {
-  if (!SPREADSHEET_ID) {
-    throw new Error('缺少 SPREADSHEET_ID 設定');
-  }
+	if (!SPREADSHEET_ID) {
+		throw new Error('缺少 SPREADSHEET_ID 設定');
+	}
 
-  return SpreadsheetApp.openById(SPREADSHEET_ID);
+	return SpreadsheetApp.openById(SPREADSHEET_ID);
 }
 
 function appendRegistration_(row) {
-  const sheet = getSheet_(REGISTRATION_SHEET_NAME);
-  sheet.appendRow([
-    row.id,
-    row.timestamp,
-    row.userId,
-    row.displayName,
-    row.last5,
-    row.amount,
-    row.status,
-    row.source,
-    row.courseDate,
-    row.remark,
-  ]);
+	const sheet = getSheet_(REGISTRATION_SHEET_NAME);
+	sheet.appendRow([
+		row.id,
+		row.timestamp,
+		row.userId,
+		row.displayName,
+		row.last5,
+		row.amount,
+		row.status,
+		row.source,
+		row.courseDate,
+		row.remark,
+	]);
 }
 
 function recordError_(error, e) {
-  try {
-    const sheet = getSheet_(ERROR_LOG_SHEET_NAME);
-    sheet.appendRow([
-      new Date(),
-      error instanceof Error ? error.message : String(error),
-      e && e.postData && e.postData.contents ? e.postData.contents : '',
-    ]);
-  } catch (loggingError) {
-    console.error(loggingError);
-  }
+	try {
+		const sheet = getSheet_(ERROR_LOG_SHEET_NAME);
+		sheet.appendRow([
+			new Date(),
+			error instanceof Error ? error.message : String(error),
+			e && e.postData && e.postData.contents ? e.postData.contents : '',
+		]);
+	} catch (loggingError) {
+		console.error(loggingError);
+	}
 }
 
 function getSheet_(sheetName) {
-  const spreadsheet = getSpreadsheet_();
-  const sheet = spreadsheet.getSheetByName(sheetName);
+	const spreadsheet = getSpreadsheet_();
+	const sheet = spreadsheet.getSheetByName(sheetName);
 
-  if (!sheet) {
-    throw new Error('找不到工作表：' + sheetName);
-  }
+	if (!sheet) {
+		throw new Error('找不到工作表：' + sheetName);
+	}
 
-  return sheet;
+	return sheet;
 }
 
 function getLineDisplayName_(userId) {
-  if (!userId || !CHANNEL_ACCESS_TOKEN) {
-    return 'LINE 使用者';
-  }
+	if (!userId || !CHANNEL_ACCESS_TOKEN) {
+		return 'LINE 使用者';
+	}
 
-  try {
-    const response = UrlFetchApp.fetch('https://api.line.me/v2/bot/profile/' + encodeURIComponent(userId), {
-      method: 'get',
-      headers: {
-        Authorization: 'Bearer ' + CHANNEL_ACCESS_TOKEN,
-      },
-      muteHttpExceptions: true,
-    });
+	try {
+		const response = UrlFetchApp.fetch(
+			'https://api.line.me/v2/bot/profile/' + encodeURIComponent(userId),
+			{
+				method: 'get',
+				headers: {
+					Authorization: 'Bearer ' + CHANNEL_ACCESS_TOKEN,
+				},
+				muteHttpExceptions: true,
+			}
+		);
 
-    if (response.getResponseCode() !== 200) {
-      return 'LINE 使用者';
-    }
+		if (response.getResponseCode() !== 200) {
+			return 'LINE 使用者';
+		}
 
-    const data = JSON.parse(response.getContentText());
-    return data.displayName || 'LINE 使用者';
-  } catch (error) {
-    console.error(error);
-    return 'LINE 使用者';
-  }
+		const data = JSON.parse(response.getContentText());
+		return data.displayName || 'LINE 使用者';
+	} catch (error) {
+		console.error(error);
+		return 'LINE 使用者';
+	}
 }
 
 function replyText_(replyToken, text) {
-  if (!replyToken || !CHANNEL_ACCESS_TOKEN) {
-    return;
-  }
+	if (!replyToken || !CHANNEL_ACCESS_TOKEN) {
+		return;
+	}
 
-  UrlFetchApp.fetch('https://api.line.me/v2/bot/message/reply', {
-    method: 'post',
-    contentType: 'application/json',
-    headers: {
-      Authorization: 'Bearer ' + CHANNEL_ACCESS_TOKEN,
-    },
-    payload: JSON.stringify({
-      replyToken: replyToken,
-      messages: [
-        {
-          type: 'text',
-          text: text,
-        },
-      ],
-    }),
-    muteHttpExceptions: true,
-  });
+	UrlFetchApp.fetch('https://api.line.me/v2/bot/message/reply', {
+		method: 'post',
+		contentType: 'application/json',
+		headers: {
+			Authorization: 'Bearer ' + CHANNEL_ACCESS_TOKEN,
+		},
+		payload: JSON.stringify({
+			replyToken: replyToken,
+			messages: [
+				{
+					type: 'text',
+					text: text,
+				},
+			],
+		}),
+		muteHttpExceptions: true,
+	});
 }
 
 function jsonResponse_(payload) {
-  return ContentService.createTextOutput(JSON.stringify(payload)).setMimeType(
-    ContentService.MimeType.JSON,
-  );
+	return ContentService.createTextOutput(JSON.stringify(payload)).setMimeType(
+		ContentService.MimeType.JSON
+	);
 }
