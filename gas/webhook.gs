@@ -142,7 +142,8 @@ function handleEvent_(event) {
 function replyWelcomeMessage_(replyToken, userId) {
 	const displayName = getLineDisplayName_(userId) || '朋友';
 	// 先傳一段歡迎純文字，再傳 Flex 卡片
-	const welcomeText = `👋 哈囉～${displayName}！\n我是您的課程助理 🐈\n\n很高興您對「Vibe Coding 工作術」課程感興趣 🎉\n👉 報名請直接點擊下方報名資訊，或輸入關鍵字「報名」即可！`;
+	const welcomeText = `👋 哈囉～${displayName}！\n我是您的課程助理 🐈\n\n很高興您對「Vibe Coding 工作術
+AI 實作工作坊 × 可部署銷售頁」課程感興趣 🎉`;
 
 	const payload = {
 		replyToken: replyToken,
