@@ -564,8 +564,17 @@ https://script.google.com/macros/s/你的部署ID/exec?token=你的共享token
 2. 找到你的 Messaging API channel
 3. 進入 Messaging API 相關設定頁
 4. 把 GAS Web App URL 貼到 Webhook URL
-5. 按 Verify
-6. 成功後啟用 Webhook
+5. 按 Verify（如果出現 302 錯誤，請見 10.4 說明）
+6. 啟用 `Use webhook`
+7. **關閉 `Webhook redelivery`**
+
+建議的 Webhook 設定：
+
+| 設定                         | 狀態    | 說明                                         |
+| ---------------------------- | ------- | -------------------------------------------- |
+| Use webhook                  | ✅ 開啟 | 啟用 Webhook 才能接收 LINE 事件              |
+| Webhook redelivery           | ❌ 關閉 | GAS 會回傳 302，開啟會導致 LINE 不斷重試寫入 |
+| Error statistics aggregation | ✅ 開啟 | 正常保持即可                                 |
 
 ### 10.2 驗證成功後你可以怎麼測
 
@@ -582,6 +591,16 @@ https://script.google.com/macros/s/你的部署ID/exec?token=你的共享token
 - `SPREADSHEET_ID` 是否正確
 - `registrations` / `error_logs` 工作表名稱是否正確
 - LINE Webhook 是否真的已啟用
+
+### 10.4 Verify 出現 302 錯誤怎麼辦？
+
+GAS Web App 的回應機制會先回傳一次 302 重新導向，這是 Google Apps Script 的內建行為。LINE 的 Verify 按鈕不會跟隨 302，所以驗證時會報錯。
+
+但實際上 LINE 的事件推送可以正常送達，所以你可以：
+
+1. **忽略 Verify 的 302 錯誤**
+2. 直接用 LINE 帳號傳訊息測試，確認 Google Sheet 有收到資料即可
+3. **務必關閉 Webhook redelivery**，否則 LINE 會因為 302 不斷重試，造成同一筆資料重複寫入
 
 ---
 
