@@ -82,7 +82,7 @@ function handleEvent_(event) {
 		cache.remove(userStateKey);
 		replyText_(
 			event.replyToken,
-			'💰 【優惠方案】\n\n超早鳥：NTD 3,000（優惠倒數中！）\n原價　：NTD 4,500\n\n👉 點擊下方選單的「報名」即可開始報名流程！'
+			'💰 【價格方案總覽】\n\n🔥 早鳥優惠（最推薦）\n　NT$ 3,600｜限時保留優惠名額，優先卡位！\n\n🎫 單人票\n　NT$ 4,800｜適合想自己完成第一個上線作品的個人學員\n\n👥 雙人團報\n　NT$ 5,600（2人）｜適合共同學習與公司夥伴一起導入實作\n\n⏰ 早鳥截止 2026/12/12\n📋 本梯次剩餘 20 席\n\n👉 點擊下方選單的「報名」即可開始報名流程！'
 		);
 		return;
 	}
@@ -91,7 +91,7 @@ function handleEvent_(event) {
 	if (text === '複製匯款資訊') {
 		cache.remove(userStateKey);
 		const bankInfo =
-			'【匯款資訊總覽】\n銀行：玉山銀行 (808)\n戶名：陳威達\n帳號：0370968229188\n金額：NT$ 3,000\n\n💡 提示：您可以長按上方訊息單獨複製銀行代碼或帳號\n✅ 完成匯款後，請點擊「我已完成匯款」或是輸入「我已完成匯款」';
+			'【匯款資訊總覽】\n銀行：玉山銀行 (808)\n戶名：享哥\n帳號：1234567891234\n金額：NT$ 3,600\n\n💡 提示：您可以長按上方訊息單獨複製銀行代碼或帳號\n✅ 完成匯款後，請點擊「我已完成匯款」或是輸入「我已完成匯款」';
 		replyText_(event.replyToken, bankInfo);
 		return;
 	}
@@ -213,7 +213,7 @@ function getWelcomeFlex_() {
 				},
 				{
 					type: 'text',
-					text: '10/12 整日線下大課 + 四週實戰陪跑',
+					text: '12/31 半日實體工作坊',
 					size: 'sm',
 					wrap: true,
 					margin: 'sm',
@@ -266,7 +266,7 @@ function getWelcomeFlex_() {
 						{ type: 'text', text: '原價', size: 'sm', color: '#888888' },
 						{
 							type: 'text',
-							text: 'NT$ 4,500',
+							text: 'NT$ 4,800',
 							size: 'sm',
 							color: '#888888',
 							align: 'end',
@@ -282,7 +282,7 @@ function getWelcomeFlex_() {
 						{ type: 'text', text: '超早鳥優惠', size: 'md', weight: 'bold', color: '#E06B65' },
 						{
 							type: 'text',
-							text: 'NT$ 3,000',
+							text: 'NT$ 3,600',
 							size: 'md',
 							weight: 'bold',
 							color: '#E06B65',
@@ -297,7 +297,7 @@ function getWelcomeFlex_() {
 					contents: [
 						{
 							type: 'text',
-							text: '⏰ 優惠倒數中！省下 NT$ 1,500',
+							text: '⏰ 優惠倒數中！省下 NT$ 1,200',
 							size: 'sm',
 							color: '#E06B65',
 							weight: 'bold',
